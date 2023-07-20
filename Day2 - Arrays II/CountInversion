@@ -1,0 +1,52 @@
+#define lli long long int
+class Solution{
+  public:
+    lli merge(lli arr[],lli s,lli mid,lli e)
+    {
+        lli i=s,j = mid+1,k=s,cnt=0;
+        lli temp[s+e];
+        while(i<=mid && j<=e)
+        {
+            if(arr[i]<=arr[j])
+            {
+                temp[k++]=arr[i++];
+            }
+            else
+            {
+                temp[k++]=arr[j++];
+                cnt+= (mid-i+1);
+            }
+        }
+        while(i<=mid)
+        {
+            temp[k++]=arr[i++];
+        }
+        while(j<=e)
+        {
+            temp[k++]=arr[j++];
+        }
+        
+        
+        for(i =s;i<=e;i++)
+        {
+            arr[i]=temp[i];
+        }
+        return cnt;
+    }
+    lli mergesort(lli arr[],lli s,lli e)
+    {
+        lli cnt=0;
+        if(s<e)
+        {
+            lli mid = s + (e-s)/2;
+            cnt+= mergesort(arr,s,mid);
+            cnt+= mergesort(arr,mid+1,e);
+            cnt+= merge(arr,s,mid,e);
+        }
+        return cnt;
+    }
+    long long int inversionCount(long long arr[], long long N)
+    {
+        return mergesort(arr,0,N-1);
+    }
+};
